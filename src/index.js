@@ -8,14 +8,9 @@ import enUS from 'antd/lib/locale-provider/en_US'
 import { LocaleProvider } from 'antd'
 import * as actions from './state/actions'
 import './index.css'
-import isOnline from './utils/isOnline'
 import store from './state/store'
 
-// only request data from the server if it is running locally
-if (!isOnline) {
-  store.dispatch(actions.loadData())
-}
-global.store = store //DEBUG
+store.dispatch(actions.fetchDataFromDb())
 
 ReactDOM.render(
   <Provider store={store}>

@@ -1,11 +1,10 @@
 FROM node:7.4-alpine
-RUN mkdir /rasa-nlu-data
 
 WORKDIR /rasa-nlu-trainer
 COPY . ./
 
-RUN npm i -g rasa-nlu-trainer
+RUN npm install
 
-EXPOSE 8080
+EXPOSE 3000 4321
 
-CMD ["rasa-nlu-trainer", "-p", "8080"]
+CMD ["npm", "start", "-p", "3000"]

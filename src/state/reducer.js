@@ -1,14 +1,12 @@
 // @flow
 import immutable from 'object-path-immutable'
-import testData from './testData.json'
-import isOnline from '../utils/isOnline'
 import pick from 'lodash/pick'
+import createExample from '../utils/createExample'
 
 import {
   EDIT,
   DELETE_EXAMPLE,
   SET_SELECTION,
-  FETCH_DATA,
   SAVING_DONE,
   EXPAND,
   COLLAPSE,
@@ -16,38 +14,16 @@ import {
   CLOSE_ADD_MODAL,
   SAVE_AND_CLOSE_ADD_MODAL,
   RESET,
+  CONVERT_TO_EXAMPLES,
+  FETCH_DATA_FROM_DB,
+  CONVERSATION_OPENED,
+  BACK_OVERVIEW, 
+  FILTER_CONVO_DONE,
+  ACTION_CHECK_CHANGE
 } from './actions'
 
-let exampleIDCounter = 0
-
-function createExample({text='', intent='', entities=[]}) {
-  return {
-    text,
-    intent,
-    entities,
-    updatedAt: Date.now(),
-    isExpanded: false,
-    id: (++exampleIDCounter).toString(),
-  }
-}
-
-function prepareExamples(examples = []) {
-  return examples.map(example => createExample(example))
-}
-
-const INITIAL_STATE = {
-  filename: 'testData.json',
-  originalSource: isOnline ? testData : null,
-  examples: isOnline
-    ? testData.rasa_nlu_data.common_examples.map(e => createExample(e))
-    : null,
-  isUnsaved: false,
-  selection: null,
-  idExampleInModal: null,
-}
-
 export default function reducer (
-  state: Object = INITIAL_STATE,
+  state: Object = {examples: []},
   action: Object
 ): Object {
   const { type, payload } = action
@@ -90,15 +66,6 @@ export default function reducer (
         return state
       }
       return immutable.set(state, `selection`, { idExample: id, start, end })
-    }
-    case FETCH_DATA: {
-      const { data, path } = payload
-      return {
-        ...state,
-        examples: prepareExamples(data.rasa_nlu_data.common_examples),
-        originalSource: data,
-        filename: path,
-      }
     }
     case SAVING_DONE: {
       return {
@@ -144,6 +111,72 @@ export default function reducer (
     case SAVE_AND_CLOSE_ADD_MODAL: {
       return immutable.set(state, `idExampleInModal`, null)
     }
+    case FETCH_DATA_FROM_DB: {
+      const { data } = payload
+      return {
+        ...state,
+        examples: [],
+        unclassifiedConvos: data
+      }
+    }
+    case CONVERSATION_OPENED: {
+      const {source} = payload
+      return {
+        ...state,
+        isConvoOpened: true,
+        openedConversationBundle: source.openedConversationBundle
+      }
+    }
+    case BACK_OVERVIEW: {
+      return {
+        ...state,
+        isConvoOpened: false
+      }
+    }
+    case FILTER_CONVO_DONE: {
+      const {id, convos} = payload
+      const unclassfied = convos.filter(convo => convo.cid != id)
+      return {
+        ...state,
+        isConvoOpened: false,
+        unclassifiedConvos: unclassfied
+      }
+    }
+    case ACTION_CHECK_CHANGE: {
+      const {event} = payload
+
+      const setAction = (example) => {
+        return immutable.set(example, 'isAction', event.target.checked);
+      }
+
+      const result = state.examples.map((example) => {
+        if(example.id == event.target.value){
+          return setAction(example)
+        }
+        return example
+      })
+
+      return {
+        ...state,
+        examples: result
+      }
+    }
+
+    case CONVERT_TO_EXAMPLES: {
+      const { example, name } = payload
+      const newState = immutable.push(
+        state,
+        `examples`,
+        example,
+      )
+
+      return {
+        ...state,
+        examples: newState.examples,
+        conversationName: name,
+      }
+    }
+    
     default:
       return state
   }
