@@ -1,5 +1,5 @@
 # rasa-nlu-trainer
-This is a tool to load raw texts, label them and persist labeled texts. It is forked from [rasa NLU](https://github.com/rasahq/rasa_nlu)
+This is a tool to load raw texts, label them and persist labeled texts.
 
 ![rasa-nlu-trainer-customized](./images/rasa-nlu-trainer-customized.gif)
 
