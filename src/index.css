@@ -107,3 +107,8 @@ body {
 .example-table .ant-table-title {
   padding: 0px;
 }
+
+.example-table .ant-dropdown-link {
+    padding: 5px;
+    font-size: 1.2em;
+}

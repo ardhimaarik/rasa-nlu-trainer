@@ -1,5 +1,4 @@
 import store from '../state/store'
-import immutable from 'object-path-immutable'
 
 function trimWhitespace(text, entities) {
   return entities.map((entity) => {
@@ -15,13 +14,11 @@ function trimWhitespace(text, entities) {
 }
 
 export default function () {
-  const state = store.getState()
-  const source = immutable.set(
-    state.originalSource,
-    'rasa_nlu_data.common_examples',
-    state.examples.map(
-      ({text, intent, entities}) => ({text, intent, entities: trimWhitespace(text, entities)})
-    )
+  const result = store.getState().examples.map(
+    ({text, intent, entities, user, isAction, source, cid}) => ({
+      text, intent, entities: trimWhitespace(text, entities),
+      user, isAction, source, cid
+    })
   )
-  return JSON.stringify(source, null, 2)
+  return JSON.stringify(result, null, 2)
 }

@@ -6,53 +6,73 @@ import TopBar from './TopBar'
 import AddExampleModal from './AddExampleModal'
 import CompatibilityAlert from './CompatibilityAlert'
 import { connect } from 'react-redux'
-import { Spin } from 'antd'
+import ConversationTable from './ConversationTable'
+import {Spin, Table} from 'antd'
 
 const mapState = (state) => ({
-  examples: state.examples
+  examples: state.examples || [],
+  isConvoOpened: state.isConvoOpened | false
 })
 
 class App extends Component {
-  render() {
-    const { examples } = this.props
-    if (!examples) {
-      return (
-        <Spin style={{ width: '100%', height: '100%' }}>
-          <div />
-        </Spin>
-      )
-    }
 
+  constructor(props){
+    super(props)
+  }
+
+  renderedDetailConvo(examples){
     const intents = []
-    examples.forEach(({intent}) => {
-      if (intent && intents.indexOf(intent) === -1) {
-        intents.push(intent)
-      }
-    })
-
-    const entityNames = []
-    examples.forEach((example) => {
-      example.entities.forEach(({entity}) => {
-        if (entity && entityNames.indexOf(entity) === -1) {
-          entityNames.push(entity)
+      examples.forEach(({intent}) => {
+        if (intent && intents.indexOf(intent) === -1) {
+          intents.push(intent)
         }
       })
-    })
 
-    return (
-      <div>
-        <ExampleTable
-          intents={intents}
-          entityNames={entityNames}
-          header={() => <TopBar />}
-        />
-        <AddExampleModal
-          intents={intents}
-          entityNames={entityNames}
-        />
-        <CompatibilityAlert />
-      </div>
-    )
+      const entityNames = []
+      examples.forEach((example) => {
+        example.entities.forEach(({entity}) => {
+          if (entity && entityNames.indexOf(entity) === -1) {
+            entityNames.push(entity)
+          }
+        })
+      })
+
+      return (
+        <div>
+          <ExampleTable
+            intents={intents}
+            entityNames={entityNames}
+            header={() => <TopBar />}
+          />
+          <AddExampleModal
+            intents={intents}
+            entityNames={entityNames}
+          />
+          <CompatibilityAlert />
+        </div>
+      )
+  }
+
+  render() {
+
+    const {isConvoOpened} = this.props;
+    
+    if (isConvoOpened){
+      const { examples } = this.props
+
+      if(examples.length < 1){
+        return (
+          <Spin style={{marginTop: '10%'}}>
+            <Table/>
+          </Spin>
+        )
+      }
+      
+      return this.renderedDetailConvo(examples);
+      
+    }else{
+       return <ConversationTable />
+    }
   }
 }
 
