@@ -1,6 +1,8 @@
 # rasa-nlu-trainer
 This is a tool to load raw texts, label them and persist labeled texts. It is forked from [rasa NLU](https://github.com/rasahq/rasa_nlu)
 
+![rasa-nlu-trainer-customized](./images/rasa-nlu-trainer-customized.gif)
+
 ## Prerequisite
 - Set up and start a service of MongoDB (for storing raw texts and labeled texts)
 - Set up and start a service Rasa NLU as HTTP server (for obtaining proposed intents/entities)
