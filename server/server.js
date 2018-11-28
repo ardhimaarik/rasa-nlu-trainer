@@ -29,6 +29,8 @@ if(process.env.MONGO_URL){
     dbUrl = buildDbUrl();
 }
 
+console.log('---> connecting to mongodb with url', dbUrl);
+
 db.Promise = global.Promise;
 db.connect(dbUrl,  { useNewUrlParser: true });
 

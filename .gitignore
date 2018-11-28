@@ -17,3 +17,6 @@ npm-debug.log
 
 #emacs
 *~
+
+# data
+mongodb_data/

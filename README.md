@@ -19,3 +19,29 @@ $> npm install
 $> npm start
 # Go to `http://localhost:3000/` to access the NLU trainer. In case you want to call APIs defined in `server/server.js`, you are able to use the url `http://localhost:4321/api/unclassified_convos`, for example.
 ```
+
+------------
+## Up & Running
+
+```bash
+docker-compose up -d
+```
+
+## Containers
+
+### Rasa NLU Trainer
+http://localhost:8080/trainer/
+
+### MongoDB Express
+http://localhost:8082/mongo-express/db/trainer/
+
+
+### Rasa NLU HTTP Server
+
+http://localhost:8083/parse
+
+Example request:
+
+```bash
+curl -X POST localhost:8083/parse -d '{"q": "Hi", "project": "trainer", "model": "nlu"}' | python -m json.tool
+```
