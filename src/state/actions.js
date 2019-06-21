@@ -147,26 +147,11 @@ export const fetchConversationToExamples = (
   payload: {example, name}
 })
 
-async function getNluProposal(text){
-  const response = await fetch(`${ROOT_PATH}getNluProposal`, {
-    method: 'POST',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({'text': text})
-  })
-
-  const json = await response.json()
-  return json;
-}
-
 async function convertTurnToExample(sentence, conversation) {
-  const nluProposal = await getNluProposal(sentence.text);
   return createExample({
       "text": sentence.text, 
-      "intent": nluProposal.intent.name,
-      "entities": nluProposal.entities,
+      "intent": "",
+      "entities": [],
       "user": sentence.user,
       "source": conversation.source,
       "cid": conversation.cid

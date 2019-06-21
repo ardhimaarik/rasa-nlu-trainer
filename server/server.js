@@ -95,27 +95,7 @@ app.post('/api/update_unclassified_done', function (req, res) {
         }
         return res.json({ok: true});
     })
-})
-
-app.post('/api/getNluProposal', function (req, res) {
-    const {text} = req.body;
-    const RASA_NLU_PROJECT = process.env.RASA_NLU_PROJECT;
-    const RASA_NLU_MODEL = process.env.RASA_NLU_MODEL;
-    const RASA_NLU_URL = process.env.RASA_NLU_URL;
-
-    axios({
-        method: 'post',
-        url: RASA_NLU_URL,
-        data: {
-            q: text,
-            project: RASA_NLU_PROJECT,
-            model: RASA_NLU_MODEL
-        }
-    }).then(function(response){
-        res.send(JSON.stringify(response.data));
-    });
-
-})
+});
 
 /* END: HTTP APIs definition */
 
