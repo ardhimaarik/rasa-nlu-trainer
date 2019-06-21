@@ -1,7 +1,7 @@
 # rasa-nlu-trainer
 A tool for human beings in order to classify intents and extract entities of texts loading from a raw dataset such as Rocket.chat's conversation, Maluuba Frames, etc. The output (labeled texts) is in Rasa NLU training format.
 
-<img src="images/rasa-nlu-trainer-customized.gif" />
+<img src="images/rasa-nlu-trainer-customized.gif"/>
 
 ## Features
 1. Loading raw texts stored in MongoDB
