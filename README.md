@@ -1,6 +1,11 @@
 # rasa-nlu-trainer
 This is a tool to load raw texts, label them and persist labeled texts.
 
+## Features
+1. Loading raw texts stored in MongoDB
+2. GUI for manually labeling intents and entities for the loaded texts
+3. Persisting labeled texts
+
 ![rasa-nlu-trainer-customized](./images/rasa-nlu-trainer-customized.gif)
 
 ## Up & Running
