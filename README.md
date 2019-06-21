@@ -17,7 +17,7 @@ docker-compose up -d mongo
 # please wait for some seconds util mongo service's status turns to be healthy
 # this might be handled with https://github.com/ufoscout/docker-compose-wait/
 # but here, we simply make it with this simple approach (without using  more external tools) :D :D
-# check status of container with `docker-compose ps`, then run:
+# check status of containers with `docker-compose ps`, then run:
 docker-compose up -d
 ```
 
