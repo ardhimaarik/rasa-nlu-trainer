@@ -20,11 +20,7 @@ docker-compose up -d mongo
 # check status of containers with `docker-compose ps`, then run:
 docker-compose up -d
 ```
+### Containers Accessing
+**Rasa NLU Trainer:** http://localhost:8080/trainer/
 
-## Containers Accessing
-
-### Rasa NLU Trainer
-http://localhost:8080/trainer/
-
-### MongoDB Express
-http://localhost:8082/mongo-express/db/trainer/
+**MongoDB Express:** http://localhost:8082/mongo-express/db/trainer/
